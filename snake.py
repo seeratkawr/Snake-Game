@@ -4,7 +4,7 @@ import random #to place food
 #constants
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
-SPEED = 50
+SPEED = 150
 SPACE_SIZE = 50
 BODY_PARTS = 3
 SNAKE_COLOR = "blue"
@@ -63,7 +63,21 @@ def next_turn(snake, food):
   window.after(SPEED, next_turn, snake, food)
 
 def change_direction(new_direction):
-  pass
+  global direction
+
+  if new_direction == "left":
+    if direction != "right":
+      direction = new_direction
+  elif new_direction == "right":
+    if direction != "left":
+      direction = new_direction
+  elif new_direction == "up":
+    if direction != "down":
+      direction = new_direction
+  elif new_direction == "down":
+    if direction != "up":
+      direction = new_direction
+  
 
 def check_collisions():
   pass
@@ -96,6 +110,11 @@ x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+window.bind('<Left>', lambda event: change_direction("left"))
+window.bind('<Right>', lambda event: change_direction("right"))
+window.bind('<Up>', lambda event: change_direction("up"))
+window.bind('<Down>', lambda event: change_direction("down"))
 
 snake = Snake()
 food = Food()
