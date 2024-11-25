@@ -30,3 +30,18 @@ def check_collisions():
 
 def game_over():
   pass
+
+window = Tk()
+window.title("Snake Game")
+window.resizable(False, False)
+
+score = 0
+direction = "right"
+
+label = Label(window, text = "Score:{}".format(score), font = ("Arial", 40))
+label.pack()
+
+canvas = Canvas(window, bg = BACKGROUND_COLOR, height = GAME_HEIGHT, width = GAME_WIDTH)
+canvas.pack()
+
+window.mainloop()
