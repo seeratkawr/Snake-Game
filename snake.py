@@ -1,16 +1,9 @@
-import tkinter #gui lib
+from tkinter import * #gui lib
 import random #to place food
 
-ROWS = 25
-COLS = 25
-TILE_SIZE = 25
+class Snake:
+  pass
 
-WINDOW_WIDTH = TILE_SIZE * COLS
-WINDOW_HEIGHT = TILE_SIZE * ROWS
+class Food:
+  pass
 
-#game window
-window = tkinter.Tk()
-window.title("Snake")
-window.resizable(False, False)
-
-window.mainloop()
