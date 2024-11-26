@@ -28,17 +28,23 @@ class Snake:
 
 class Food:
   def __init__(self):
-    x = random.randint(0, int((GAME_WIDTH / SPACE_SIZE) - 1)) * SPACE_SIZE
-    y = random.randint(0, int((GAME_HEIGHT / SPACE_SIZE) - 1)) * SPACE_SIZE
+    while (True):
+      x = random.randint(0, int((GAME_WIDTH / SPACE_SIZE) - 1)) * SPACE_SIZE
+      y = random.randint(0, int((GAME_HEIGHT / SPACE_SIZE) - 1)) * SPACE_SIZE
+
+      if (x, y) not in snake.coordinates:
+        break
 
     self.coordinates = [x, y]
+
 
     canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = FOOD_COLOR, tag = "food")
 
 #functions
 def next_turn(snake, food):
-  global direction
+  global direction, pending_direction
 
+  direction = pending_direction
   x, y = snake.coordinates[0]
 
   if direction == "up":
@@ -70,17 +76,16 @@ def next_turn(snake, food):
   window.after(SPEED, next_turn, snake, food)
 
 def change_direction(new_direction):
-  global direction
+  global direction, pending_direction
 
   if new_direction == "left" and direction != "right":
-      direction = new_direction
+      pending_direction = new_direction
   elif new_direction == "right" and direction != "left":
-      direction = new_direction
+      pending_direction = new_direction
   elif new_direction == "up" and direction != "down":
-      direction = new_direction
+      pending_direction = new_direction
   elif new_direction == "down" and direction != "up":
-      direction = new_direction
-  
+      pending_direction = new_direction
 
 def check_collisions():
   pass
@@ -94,6 +99,7 @@ window.resizable(False, False)
 
 score = 0
 direction = "right"
+pending_direction = "right"
 
 label = Label(window, text = "Score:{}".format(score), font = ("Arial", 40))
 label.pack()
