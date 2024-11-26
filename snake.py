@@ -37,17 +37,16 @@ class Food:
 
 #functions
 def next_turn(snake, food):
+  global direction
+
   x, y = snake.coordinates[0]
 
   if direction == "up":
     y -= SPACE_SIZE
-
   elif direction == "down":
     y += SPACE_SIZE
-
   elif direction == "left":
     x -= SPACE_SIZE
-
   elif direction == "right":
     x += SPACE_SIZE
 
@@ -56,26 +55,30 @@ def next_turn(snake, food):
   square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = SNAKE_COLOR)
   snake.squares.insert(0, square)
 
-  del snake.coordinates[-1]
-  canvas.delete(snake.squares[-1])
-  del snake.squares[-1]
+  if x == food.coordinates[0] and y == food.coordinates[1]:
+    global score
+    score += 1
+    label.config(text = "Score:{}".format(score))
+
+    canvas.delete("food")
+    food = Food()
+  else: 
+    del snake.coordinates[-1]
+    canvas.delete(snake.squares[-1])
+    del snake.squares[-1]
 
   window.after(SPEED, next_turn, snake, food)
 
 def change_direction(new_direction):
   global direction
 
-  if new_direction == "left":
-    if direction != "right":
+  if new_direction == "left" and direction != "right":
       direction = new_direction
-  elif new_direction == "right":
-    if direction != "left":
+  elif new_direction == "right" and direction != "left":
       direction = new_direction
-  elif new_direction == "up":
-    if direction != "down":
+  elif new_direction == "up" and direction != "down":
       direction = new_direction
-  elif new_direction == "down":
-    if direction != "up":
+  elif new_direction == "down" and direction != "up":
       direction = new_direction
   
 
