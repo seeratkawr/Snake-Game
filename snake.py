@@ -108,13 +108,35 @@ def check_collisions(snake):
   return False
 
 def game_over():
+  global restart_button
+
   canvas.delete(ALL)
   canvas.create_text(canvas.winfo_width() / 2, canvas.winfo_height() / 2, font = ("Arial", 40), text = "Game Over", fill = "red", tag = "game_over")
+
+  restart_button = Button(window, text = "Restart", command = restart_game, font = ("Arial", 20)) 
+  restart_button.place(x = GAME_WIDTH / 2, y = GAME_HEIGHT / 2, anchor = "center" )
+
+
+def restart_game():
+  global snake, food, score, direction, pending_direction, restart_button
+
+  if restart_button:
+    restart_button.destroy()
+
+  canvas.delete(ALL)
+  snake = Snake()
+  food = Food()
+  score = 0
+  direction = "right"
+  pending_direction = direction
+  label.config(text = "Score:{}".format(score))
+  next_turn(snake, food)
 
 window = Tk()
 window.title("Snake Game")
 window.resizable(False, False)
 
+restart_button = None
 score = 0
 direction = "right"
 pending_direction = "right"
